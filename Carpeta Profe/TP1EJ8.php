@@ -7,7 +7,7 @@
 ($A != $B) && ($A != $C) && ($B != $C);
 
 //c. E es no nulo y F no es mayor que G.
-($E != 0) and !($F > $G)
+($E != 0) and !($F >$G);
 
 //d. B está estrictamente entre A y C.
 ($B > $A) && ($B < $C);
