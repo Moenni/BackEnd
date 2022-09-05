@@ -69,5 +69,5 @@ switch($mes){
     }break;
 }
 }else{
-    echo "dia de nacimiento incorrecto"
+    echo "dia de nacimiento incorrecto";
 }
