@@ -12,7 +12,7 @@ switch($mes){
     }else{
         echo "Su signo es de Acuario";
     }break;
-    case 2: if($dia < 18){
+    case 2: if($dia < 19){
         echo "Su signo es Acuario";
     }else{
         echo "Su signo es de Piscis";
