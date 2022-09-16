@@ -10,7 +10,8 @@ $B=readline("Ingrese el valor de B: ");
 
 
 if($B<0){
-    $B*=-1; //$B= $
+    $B*=-1; //$B= $B*-1;
+    $A*=-1; //$A* -1;
 }
 /*
 echo "$A X $B = $acumuladora";$acumuladora=0;
