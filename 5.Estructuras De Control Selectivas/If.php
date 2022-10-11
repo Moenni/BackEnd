@@ -22,7 +22,7 @@ echo "al tener $edad años, puede cobrar $salario2";
 } */
 
 if ($edad >= 21) {
-    echo "al tener $edad años, puede cobrar $salario2";
+    echo "al tener $edad años, puede cobrar $salario";
 } else { // $edad < 21 || $edad <=20
     echo "al tener $edad años, puede cobrar $salario1";
 }
