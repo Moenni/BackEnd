@@ -29,6 +29,6 @@ $Leo->nombre="Leo".PHP_EOL; //llamo a la funcion y cambio el valor del objeto no
 
 echo $Leo->nombre; //llamo a la funcion y busco el nuevo valor del objeto nombre
 
-$Angelina = new Persona("Angelina","Jolie",52);
+//$Angelina = new Persona("Angelina","Jolie",52);
 
 $Personas=[$Angelina,$Leo];
