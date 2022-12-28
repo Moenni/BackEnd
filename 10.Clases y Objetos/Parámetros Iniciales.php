@@ -46,16 +46,17 @@ class Persona{
             $this->fechaDeNacimiento=$fechaN;
         }
      }
-     
+    
         public function setPrecio($precio){
             if($precio>0){
-                $this->precio= $precio;
+                $this->$precio= $precio;
             
             }else{
                 echo "El precio no puede ser negativo  cero";
             }
         }
 }
+
 
 $nombre= $_POST['nombre'];
 $apellido= $_POST['apellido'];
