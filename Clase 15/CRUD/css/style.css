@@ -1,4 +1,11 @@
-.body{
+body{
     padding: 50px;
     
+}
+.form{
+    display: inline;
+    width: 150px;
+}
+.thumb-image{
+    width: 150px;
 }

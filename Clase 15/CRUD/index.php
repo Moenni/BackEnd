@@ -18,7 +18,8 @@ try {
 //TRAIGO LOS DATOS DE LAS TABLAS AL PHP
 $statement = $dbh->prepare('SELECT * FROM productos ORDER BY fecha_creacion');
 $statement->execute();
-$productos = $statement->fetchAll();
+$productos = $statement->fetchAll(); //me trae todos los productos en un array
+
 /*
 echo "<pre>";
 print_r($productos);
@@ -34,7 +35,7 @@ echo "</pre>";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD de productos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="CRUD/css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
 
 </head>
 <body>
@@ -62,15 +63,17 @@ echo "</pre>";
       <th scope="row">
         <?php echo $i?>
       </th>
-      <td><?php echo $producto['imagen']?></td>
+      <td>
+        <img src="<?= $producto['imagen']?>" class="thumb-image">
+      </td>
       <td><?php echo $producto['nombre']?></td>
       <td><?php echo $producto['precio']?></td>
       <td><?php echo $producto['descripcion']?></td>
       <td><?php echo $producto['fecha_creacion']?></td>
       <td>
         <form method="post" action="actualizar.php">
-        <input type="hidden" name="id" value="<?=$producto['id']?> "/>
-        <button type="button" class="btn btn-primary">Editar</button>
+        <input type="hidden" name="id" value="<?=$producto['id']?>"/>
+        <button type="submit" class="btn btn-primary">Editar</button>
         </form>
         <form method="post" action="borrar.php">
         <input type="hidden" name="id" value="<?=$producto['id'] ?>" />

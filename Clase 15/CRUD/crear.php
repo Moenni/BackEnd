@@ -1,9 +1,31 @@
 <?php
+
+function randomString($n)
+{
+    $characters = '0123456789abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZ';
+  $str = '';
+  for($i=0;$i<$n;$i++){
+    $index = rand(0, strlen($characters) - 1);
+    $str = $str . $characters[$index];
+  }
+  return $str;
+}
+
+
+
+
 //CONEXION A BASE DE DATOS
 if(count($_POST)>0){ //if($_SERVER['REQUEST_METHOD']=='POST')
+ 
+ /* echo "<pre>";
+print_r($_FILES);  
+echo "</pre>";
+  exit;
+*/
  $dbname = 'crud_productos';
 $user = 'root';
 $password = '';
+
 try {
 
     $dsn = "mysql:host=localhost;dbname=$dbname";
@@ -35,20 +57,35 @@ $stmt = $dbh->prepare("INSERT INTO productos (imagen, nombre, descripcion,precio
 
 
 // Bind
-$imagen = $_POST['imagen'];
-$nombre = $_POST['nombre'];
+//$imagen = $_POST['imagen'];
+$nombre = $_POST['nombre']; 
 $descripcion = $_POST['descripcion'];
 $precio = $_POST['precio'];
 
 
-$stmt->bindValue(':imagen', $imagen); // Se enlaza al valor Morgan
-$stmt->bindValue(':nombre', $nombre); // Se enlaza al valor Morgan
-$stmt->bindValue(':descripcion', $descripcion); // Se enlaza al valor Morgan
-$stmt->bindValue(':precio', $precio); // Se enlaza al valor Morgan
+  $imagen = $_FILES['imagen'] ?? null;
+
+if($imagen){
+  if(!is_dir('imagenes')) //en el caso que no exista el directorio lo creo
+    mkdir('imagenes'); //crear directorio imagenes
+   
+    $ruta_imagen ='imagenes/'. randomString(8).'/'.$imagen['name']; // creando una ruta ficticia
+    mkdir(dirname($ruta_imagen));//crear el directorio de la ruta ficticia
+    move_uploaded_file($imagen['tmp_name'], $ruta_imagen );//muevo el archivo imagen temporal al directorio 
+}
+
+ // exit;
+
+$stmt->bindValue(':imagen', $ruta_imagen); // Se enlaza al valor imagen
+$stmt->bindValue(':nombre', $nombre); // Se enlaza al valor nombre
+$stmt->bindValue(':descripcion', $descripcion); // Se enlaza al valor descripcion
+$stmt->bindValue(':precio', $precio); // Se enlaza al valor precio
 
 //Execute
 $stmt->execute(); // Se insertará el cliente con el nombre Morgan 
+
 header("Location:index.php"); //nos redirecciona al index.php
+
  }
 
 ?>
@@ -70,7 +107,7 @@ header("Location:index.php"); //nos redirecciona al index.php
     <a href="index.php">
 <button type="button" class="btn btn-success">Volver al Indice</button>
 </a>
-    <form method="POST" action= "crear.php">
+    <form method="POST" action= "crear.php" enctype="multipart/form-data">
 <div class="mb-3">
     <label for="imagen" class="form-label">Imagen del producto</label>
     <input class="form-control" type="file" id="imagen" name="imagen">
