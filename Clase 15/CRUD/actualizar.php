@@ -1,4 +1,19 @@
 <?php
+
+function randomString($n)
+{
+    $characters = '0123456789abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZ';
+  $str = '';
+  for($i=0;$i<$n;$i++){
+    $index = rand(0, strlen($characters) - 1);
+    $str = $str . $characters[$index];
+  }
+  return $str;
+}
+
+
+
+
 $dbname = 'crud_productos';
 $user = 'root';
 $password = '';
@@ -14,30 +29,59 @@ try {
     echo $e->getMessage();
 
 }
-// Prepare:
+
+
+if(count($_POST)>0){ //ACCIONES AL REALIZARSE EN EL POST
+    $nombre = $_POST['nombre']; 
+$descripcion = $_POST['descripcion'];
+$precio = $_POST['precio'];
+$id = $_POST['id'];
+
+  $imagen = $_FILES['imagen'] ?? null;
+
+if($imagen){
+  if(!is_dir('imagenes')) //en el caso que no exista el directorio lo creo
+    mkdir('imagenes'); //crear directorio imagenes
+   
+    $ruta_imagen ='imagenes/'. randomString(8).'/'.$imagen['name']; // creando una ruta ficticia
+    mkdir(dirname($ruta_imagen));//crear el directorio de la ruta ficticia
+    move_uploaded_file($imagen['tmp_name'], $ruta_imagen );//muevo el archivo imagen temporal al directorio 
+}
+    $stmt = $dbh->prepare("UPDATE productos SET 
+    imagen= :imagen,
+    nombre= :nombre,
+    descripcion= :descripcion,
+    precio= :precio 
+    WHERE id= :id");
+ // exit;
+
+$stmt->bindValue(':imagen', $ruta_imagen); // Se enlaza al valor imagen
+$stmt->bindValue(':nombre', $nombre); // Se enlaza al valor nombre
+$stmt->bindValue(':descripcion', $descripcion); // Se enlaza al valor descripcion
+$stmt->bindValue(':precio', $precio); // Se enlaza al valor precio
+$stmt->bindValue(':id', $id); // Se enlaza al valor id
+//Execute
+$stmt->execute(); // Se insertará el cliente con el nombre Morgan 
+
+header("Location:index.php"); //nos redirecciona al index.php
+
+ }else{ //ACCIONES AL REALIZARSE EN EL GET
+    $id = $_GET['id'];
+
+    // Prepare:
 
 $stmt = $dbh->prepare("SELECT * FROM productos WHERE id=:id");
 
-
-
 // Bind
-$id = $_POST['id'];
+
 
 $stmt->bindValue(':id', $id); // Se enlaza al valor
 
 //Execute
 $stmt->execute(); // Se selecciona el producto con el id
 $producto=$stmt->fetch(PDO::FETCH_ASSOC);//me trae un producto
-
+ }
 ?>
-
-
-
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,7 +99,8 @@ $producto=$stmt->fetch(PDO::FETCH_ASSOC);//me trae un producto
     <a href="index.php">
 <button type="button" class="btn btn-success">Volver al Indice</button>
 </a>
-    <form method="POST" action= "crear.php" enctype="multipart/form-data">
+    <form method="POST" action= "actualizar.php" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="<?=$producto['id']?>"/>
     <img src="<?= $producto['imagen']?>" class="thumb-image">
 
 <div class="mb-3">

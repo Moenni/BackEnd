@@ -1,5 +1,5 @@
 <?php
-
+/*
 function randomString($n)
 {
     $characters = '0123456789abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZ';
@@ -10,10 +10,7 @@ function randomString($n)
   }
   return $str;
 }
-
-
-
-
+*/
 //CONEXION A BASE DE DATOS
 if(count($_POST)>0){ //if($_SERVER['REQUEST_METHOD']=='POST')
  

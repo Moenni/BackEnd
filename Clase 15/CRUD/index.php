@@ -71,7 +71,7 @@ echo "</pre>";
       <td><?php echo $producto['descripcion']?></td>
       <td><?php echo $producto['fecha_creacion']?></td>
       <td>
-        <form method="post" action="actualizar.php">
+        <form method="get" action="actualizar.php">
         <input type="hidden" name="id" value="<?=$producto['id']?>"/>
         <button type="submit" class="btn btn-primary">Editar</button>
         </form>
